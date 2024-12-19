@@ -1,7 +1,8 @@
 //where modules will be imported into
 const path = require('path')
 const express = require('express')
-const search = require('./uitils/movieId')
+const search = require('./utils/movieId')
+const similarMovie = require('./utils/similarMovie')
 
 // var where express function will be stored
 const app = express()
@@ -22,8 +23,26 @@ app.get('/', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-    res.send( {
+    if(!req.query.movieTitle) {
+        return res.send({
+            error:'you must provide a search term'
+        })
+    }
 
+    search(req.query.movieTitle, (error, {movieId} = {}) => {
+        if(error) {
+            return res.send({error:error})
+        }
+
+        similarMovie(movieId, (error, movieTitle) => {
+            if(error) {
+                return res.send({error})
+            }
+
+            res.send({
+                movieTitle
+            })
+        })
     })
 })
 
