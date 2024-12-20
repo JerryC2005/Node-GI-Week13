@@ -10,7 +10,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 //define paths for the express
-const publicDirPath = path.join(__dirname, '../public/html');
+const publicDirPath = path.join(__dirname, '../public');
 
 // setting express settings
 app.set('view engine', 'html')
@@ -34,13 +34,13 @@ app.get('/search', (req, res) => {
             return res.send({error:error})
         }
 
-        similarMovie(movieId, (error, movieTitle) => {
+        similarMovie(movieId, (error, movieInfo) => {
             if(error) {
                 return res.send({error})
             }
 
             res.send({
-                movieTitle
+                movieInfo
             })
         })
     })

@@ -15,7 +15,7 @@ const similarMovies = (movieId, callback) => {
                 const movieTitles = [];
 
                 for(let i = 0; i < response.body.results.length; i++) {
-                    movieTitles.push(response.body.results[i].title)
+                    movieTitles.push({title: response.body.results[i].title, img: response.body.results[i].poster_path})
                 }
                 
                 callback(undefined, movieTitles)
